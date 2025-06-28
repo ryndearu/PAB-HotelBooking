@@ -14,6 +14,9 @@ class AuthViewModel(private val repository: HotelRepository = HotelRepository())
         private set
 
     val currentUser = repository.currentUser
+    
+    // Expose repository for sharing with other ViewModels
+    val sharedRepository: HotelRepository = repository
 
     fun login(email: String, password: String) {
         uiState = uiState.copy(isLoading = true, errorMessage = null)
