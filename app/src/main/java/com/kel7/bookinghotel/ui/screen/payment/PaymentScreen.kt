@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Payment
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -25,6 +26,7 @@ import android.widget.Toast
 import com.kel7.bookinghotel.data.model.Hotel
 import com.kel7.bookinghotel.data.model.PaymentMethod
 import com.kel7.bookinghotel.data.model.RoomType
+import com.kel7.bookinghotel.ui.components.BookingSuccessDialog
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,7 +45,11 @@ fun PaymentScreen(
     onBackClick: () -> Unit,
     onConfirmBookingClick: () -> Unit,
     isLoading: Boolean = false,
-    isBookingSuccess: Boolean = false
+    isBookingSuccess: Boolean = false,
+    errorMessage: String? = null,
+    lastBooking: com.kel7.bookinghotel.data.model.Booking? = null,
+    onNavigateToHome: () -> Unit = {},
+    onNavigateToHistory: () -> Unit = {}
 ) {
     val currencyFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
     val displayDateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
@@ -54,6 +60,13 @@ fun PaymentScreen(
     LaunchedEffect(isBookingSuccess) {
         if (isBookingSuccess) {
             Toast.makeText(context, "Booking berhasil! Pesanan Anda telah dikonfirmasi.", Toast.LENGTH_LONG).show()
+        }
+    }
+    
+    // Show error toast when there's an error
+    LaunchedEffect(errorMessage) {
+        if (errorMessage != null && errorMessage.isNotBlank()) {
+            Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -174,37 +187,97 @@ fun PaymentScreen(
                                 paymentMethod = paymentMethod,
                                 isSelected = selectedPaymentMethod?.id == paymentMethod.id,
                                 onSelect = { onPaymentMethodSelect(paymentMethod) }
-                            )                        }
+                            )
+                        }
+                    }
+                }
+            }
+            
+            // Error Message Card
+            errorMessage?.let { error ->
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.Error,
+                                contentDescription = "Error",
+                                tint = MaterialTheme.colorScheme.onErrorContainer,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = error,
+                                color = MaterialTheme.colorScheme.onErrorContainer,
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
+                }
+            }
+        }        // Confirm Booking Button
+        Surface(
+            shadowElevation = 8.dp,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(
+                onClick = {
+                    onConfirmBookingClick()
+                },
+                enabled = !isLoading && selectedPaymentMethod != null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .height(56.dp), // Slightly taller for better touch target
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+            ) {
+                if (isLoading) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            strokeWidth = 2.dp
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Processing...", fontSize = 16.sp)
+                    }
+                } else {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Default.CheckCircle,
+                            contentDescription = "Confirm",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Confirm Booking", fontSize = 16.sp, fontWeight = FontWeight.Medium)
                     }
                 }
             }
         }
-
-        // Confirm Booking Button
-        Surface(
-            shadowElevation = 8.dp,
-            modifier = Modifier.fillMaxWidth()
-        ) {            Button(
-                onClick = {
-                    // Always allow booking - bypass all validation
-                    onConfirmBookingClick()
-                },
-                enabled = true, // Always enabled - complete bypass
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .height(50.dp)
-            ) {
-                if (isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(20.dp),
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-                } else {
-                    Text("Confirm Booking", fontSize = 16.sp)
-                }
-            }
-        }
+    }
+    
+    // Show success dialog when booking is successful
+    if (isBookingSuccess && lastBooking != null) {
+        BookingSuccessDialog(
+            booking = lastBooking,
+            onDismiss = { },
+            onGoToHistory = onNavigateToHistory,
+            onGoToHome = onNavigateToHome
+        )
     }
 }
 

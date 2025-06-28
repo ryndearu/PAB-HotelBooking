@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material3.*
@@ -273,22 +274,60 @@ fun BookingScreen(
             shadowElevation = 8.dp,
             modifier = Modifier.fillMaxWidth()
         ) {
+            val isValidBooking = checkInDate.isNotEmpty() && checkOutDate.isNotEmpty() && guestCount > 0
+            
             Button(
                 onClick = onContinueClick,
-                enabled = !isLoading && checkInDate.isNotEmpty() && checkOutDate.isNotEmpty(),
+                enabled = !isLoading && isValidBooking,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .height(50.dp)
+                    .height(56.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant
+                )
             ) {
                 if (isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(20.dp),
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            strokeWidth = 2.dp
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Loading...", fontSize = 16.sp)
+                    }
                 } else {
-                    Text("Continue to Payment", fontSize = 16.sp)
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            Icons.Default.ArrowForward,
+                            contentDescription = "Continue",
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Continue to Payment", fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                    }
                 }
+            }
+            
+            // Validation message
+            if (!isValidBooking && !isLoading) {
+                Text(
+                    text = when {
+                        checkInDate.isEmpty() -> "Please select check-in date"
+                        checkOutDate.isEmpty() -> "Please select check-out date"
+                        guestCount <= 0 -> "Please select number of guests"
+                        else -> ""
+                    },
+                    color = MaterialTheme.colorScheme.error,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                )
             }
         }
     }

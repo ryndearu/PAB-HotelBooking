@@ -59,6 +59,15 @@ class BookingViewModel(private val repository: HotelRepository = HotelRepository
         uiState = uiState.copy(isLoading = true, errorMessage = null)
         
         viewModelScope.launch {
+            // Validate booking data before submission
+            if (uiState.selectedPaymentMethod == null) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    errorMessage = "Please select a payment method"
+                )
+                return@launch
+            }
+            
             // Provide default values if data is empty (bypass validation)
             val checkInDate = if (uiState.checkInDate.isNotEmpty()) {
                 uiState.checkInDate
@@ -72,6 +81,25 @@ class BookingViewModel(private val repository: HotelRepository = HotelRepository
             } else {
                 // Default to day after tomorrow
                 java.time.LocalDate.now().plusDays(2).toString()
+            }
+            
+            // Validate check-out date is after check-in date
+            try {
+                val checkIn = java.time.LocalDate.parse(checkInDate)
+                val checkOut = java.time.LocalDate.parse(checkOutDate)
+                if (!checkOut.isAfter(checkIn)) {
+                    uiState = uiState.copy(
+                        isLoading = false,
+                        errorMessage = "Check-out date must be after check-in date"
+                    )
+                    return@launch
+                }
+            } catch (e: Exception) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    errorMessage = "Invalid date format"
+                )
+                return@launch
             }
             
             repository.bookRoom(

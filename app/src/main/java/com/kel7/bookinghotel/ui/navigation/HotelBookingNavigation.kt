@@ -202,17 +202,28 @@ fun HotelBookingNavigation(
                         bookingViewModel.bookRoom(args.hotelId, args.roomTypeId)
                     },
                     isLoading = bookingViewModel.uiState.isLoading,
-                    isBookingSuccess = bookingViewModel.uiState.isBookingSuccess
-                )
-                
-                // Handle successful booking
-                LaunchedEffect(bookingViewModel.uiState.isBookingSuccess) {
-                    if (bookingViewModel.uiState.isBookingSuccess) {
+                    isBookingSuccess = bookingViewModel.uiState.isBookingSuccess,
+                    errorMessage = bookingViewModel.uiState.errorMessage,
+                    lastBooking = bookingViewModel.uiState.lastBooking,
+                    onNavigateToHome = {
                         bookingViewModel.resetBookingSuccess()
                         bookingViewModel.resetBookingForm()
                         navController.navigate(HomeScreen) {
                             popUpTo(HomeScreen) { inclusive = true }
                         }
+                    },
+                    onNavigateToHistory = {
+                        bookingViewModel.resetBookingSuccess()
+                        bookingViewModel.resetBookingForm()
+                        navController.navigate(BookingHistoryScreen)
+                    }
+                )
+                
+                // Clear error message after some time
+                LaunchedEffect(bookingViewModel.uiState.errorMessage) {
+                    if (bookingViewModel.uiState.errorMessage != null) {
+                        kotlinx.coroutines.delay(5000) // Clear error after 5 seconds
+                        bookingViewModel.clearError()
                     }
                 }
             }
