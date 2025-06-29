@@ -1,5 +1,6 @@
 package com.kel7.bookinghotel.data.repository
 
+import android.util.Patterns
 import com.kel7.bookinghotel.data.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -150,29 +151,92 @@ class HotelRepository {
         PaymentMethod("3", "OVO", PaymentType.E_WALLET, "ovo"),
         PaymentMethod("4", "GoPay", PaymentType.E_WALLET, "gopay"),
         PaymentMethod("5", "Bank Transfer", PaymentType.BANK_TRANSFER, "bank_transfer")
+    )    // Mock user database for authentication
+    private val registeredUsers = mutableListOf<User>(
+        // Pre-defined demo users
+        User(
+            id = "demo-user-1",
+            email = "admin@hotel.com",
+            name = "Admin User",
+            phoneNumber = "081234567890"
+        ),
+        User(
+            id = "demo-user-2", 
+            email = "user@test.com",
+            name = "Test User",
+            phoneNumber = "081234567891"
+        )
+    )
+
+    // Mock password storage (in real app, use encrypted storage)
+    private val userPasswords = mutableMapOf<String, String>(
+        "admin@hotel.com" to "admin123",
+        "user@test.com" to "password123"
     )
 
     suspend fun login(email: String, password: String): Result<User> {
-        // Always successful login for demo purposes
-        val user = User(
-            id = UUID.randomUUID().toString(),
-            email = email,
-            name = email.substringBefore("@").replaceFirstChar { it.uppercase() },
-            phoneNumber = "081234567890"
-        )
+        // Simulate network delay
+        kotlinx.coroutines.delay(1000)
+          // Validate input
+        if (email.isBlank() || password.isBlank()) {
+            return Result.failure(Exception("Email and password are required"))
+        }
+        
+        // Validate email format
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return Result.failure(Exception("Invalid email format"))
+        }
+        
+        // Find user by email
+        val user = registeredUsers.find { it.email.equals(email, ignoreCase = true) }
+            ?: return Result.failure(Exception("User not found. Please register first."))
+        
+        // Validate password
+        val storedPassword = userPasswords[user.email]
+        if (storedPassword != password) {
+            return Result.failure(Exception("Invalid password"))
+        }
+        
+        // Login successful
         _currentUser.value = user
         return Result.success(user)
     }
 
     suspend fun register(email: String, password: String, name: String): Result<User> {
-        // Always successful registration for demo purposes
+        // Simulate network delay
+        kotlinx.coroutines.delay(1000)
+          // Validate input
+        if (email.isBlank() || password.isBlank() || name.isBlank()) {
+            return Result.failure(Exception("All fields are required"))
+        }
+        
+        // Validate email format
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return Result.failure(Exception("Invalid email format"))
+        }
+        
+        // Validate password strength
+        if (password.length < 6) {
+            return Result.failure(Exception("Password must be at least 6 characters"))
+        }
+        
+        // Check if user already exists
+        if (registeredUsers.any { it.email.equals(email, ignoreCase = true) }) {
+            return Result.failure(Exception("User with this email already exists"))
+        }
+        
+        // Create new user
         val user = User(
             id = UUID.randomUUID().toString(),
-            email = email,
+            email = email.lowercase(),
             name = name,
-            phoneNumber = "081234567890"
+            phoneNumber = "081234567890" // Default phone number
         )
-        _currentUser.value = user
+        
+        // Store user and password
+        registeredUsers.add(user)
+        userPasswords[user.email] = password
+        
         return Result.success(user)
     }
 

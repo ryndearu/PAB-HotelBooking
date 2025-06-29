@@ -50,9 +50,7 @@ class BookingViewModel(private val repository: HotelRepository = HotelRepository
 
     fun selectPaymentMethod(paymentMethod: PaymentMethod) {
         uiState = uiState.copy(selectedPaymentMethod = paymentMethod)
-    }
-
-    fun bookRoom(
+    }    fun bookRoom(
         hotelId: String,
         roomTypeId: String
     ) {
@@ -68,25 +66,35 @@ class BookingViewModel(private val repository: HotelRepository = HotelRepository
                 return@launch
             }
             
-            // Provide default values if data is empty (bypass validation)
-            val checkInDate = if (uiState.checkInDate.isNotEmpty()) {
-                uiState.checkInDate
-            } else {
-                // Default to tomorrow
-                java.time.LocalDate.now().plusDays(1).toString()
+            // Validate required booking details
+            if (uiState.checkInDate.isEmpty()) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    errorMessage = "Please select check-in date"
+                )
+                return@launch
             }
             
-            val checkOutDate = if (uiState.checkOutDate.isNotEmpty()) {
-                uiState.checkOutDate
-            } else {
-                // Default to day after tomorrow
-                java.time.LocalDate.now().plusDays(2).toString()
+            if (uiState.checkOutDate.isEmpty()) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    errorMessage = "Please select check-out date"
+                )
+                return@launch
+            }
+            
+            if (uiState.guestCount <= 0) {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    errorMessage = "Please specify number of guests"
+                )
+                return@launch
             }
             
             // Validate check-out date is after check-in date
             try {
-                val checkIn = java.time.LocalDate.parse(checkInDate)
-                val checkOut = java.time.LocalDate.parse(checkOutDate)
+                val checkIn = java.time.LocalDate.parse(uiState.checkInDate)
+                val checkOut = java.time.LocalDate.parse(uiState.checkOutDate)
                 if (!checkOut.isAfter(checkIn)) {
                     uiState = uiState.copy(
                         isLoading = false,
@@ -105,9 +113,9 @@ class BookingViewModel(private val repository: HotelRepository = HotelRepository
             repository.bookRoom(
                 hotelId = hotelId,
                 roomTypeId = roomTypeId,
-                checkInDate = checkInDate,
-                checkOutDate = checkOutDate,
-                guestCount = if (uiState.guestCount > 0) uiState.guestCount else 1,
+                checkInDate = uiState.checkInDate,
+                checkOutDate = uiState.checkOutDate,
+                guestCount = uiState.guestCount,
                 specialRequests = uiState.specialRequests
             ).onSuccess { booking ->
                 uiState = uiState.copy(
@@ -184,9 +192,11 @@ data class BookingUiState(
     fun calculateTotalPrice(pricePerNight: Double): Double {
         return calculateNumberOfNights() * pricePerNight
     }
-    
-    // Helper function to check if booking data is valid
+      // Helper function to check if booking data is valid
     fun isBookingDataValid(): Boolean {
-        return checkInDate.isNotEmpty() && checkOutDate.isNotEmpty() && guestCount > 0
+        return checkInDate.isNotEmpty() && 
+               checkOutDate.isNotEmpty() && 
+               guestCount > 0 &&
+               selectedPaymentMethod != null
     }
 }

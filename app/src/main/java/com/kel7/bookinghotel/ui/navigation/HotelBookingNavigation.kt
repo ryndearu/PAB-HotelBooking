@@ -26,9 +26,9 @@ import com.kel7.bookinghotel.ui.viewmodel.ProfileViewModel
 fun HotelBookingNavigation(
     navController: NavHostController = rememberNavController(),
     authViewModel: AuthViewModel = viewModel(),
-    hotelViewModel: HotelViewModel = viewModel(),
-    bookingViewModel: BookingViewModel = viewModel(),
-    profileViewModel: ProfileViewModel = viewModel()
+    hotelViewModel: HotelViewModel = viewModel { HotelViewModel(authViewModel.sharedRepository) },
+    bookingViewModel: BookingViewModel = viewModel { BookingViewModel(authViewModel.sharedRepository) },
+    profileViewModel: ProfileViewModel = viewModel { ProfileViewModel(authViewModel.sharedRepository) }
 ) {
     val currentUser by authViewModel.currentUser.collectAsState()
     val bookings by bookingViewModel.bookings.collectAsState()
@@ -99,10 +99,18 @@ fun HotelBookingNavigation(
                     navController.navigate(SearchScreen)
                 },
                 onProfileClick = {
-                    navController.navigate(ProfileScreen)
+                    if (currentUser != null) {
+                        navController.navigate(ProfileScreen)
+                    } else {
+                        navController.navigate(LoginScreen)
+                    }
                 },
                 onHistoryClick = {
-                    navController.navigate(BookingHistoryScreen)
+                    if (currentUser != null) {
+                        navController.navigate(BookingHistoryScreen)
+                    } else {
+                        navController.navigate(LoginScreen)
+                    }
                 }
             )
         }
@@ -137,13 +145,27 @@ fun HotelBookingNavigation(
                         navController.popBackStack()
                     },
                     onBookRoomClick = { roomTypeId ->
-                        navController.navigate(BookingScreen(args.hotelId, roomTypeId))
+                        if (currentUser != null) {
+                            navController.navigate(BookingScreen(args.hotelId, roomTypeId))
+                        } else {
+                            navController.navigate(LoginScreen)
+                        }
                     }
                 )
             }
         }
 
         composable<BookingScreen> { backStackEntry ->
+            // Authentication guard
+            if (currentUser == null) {
+                LaunchedEffect(Unit) {
+                    navController.navigate(LoginScreen) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                    }
+                }
+                return@composable
+            }
+            
             val args = backStackEntry.toRoute<BookingScreen>()
             val hotel = hotelViewModel.getHotelById(args.hotelId)
             val roomType = hotel?.roomTypes?.find { it.id == args.roomTypeId }
@@ -174,11 +196,22 @@ fun HotelBookingNavigation(
                     onContinueClick = {
                         navController.navigate(PaymentScreen(args.hotelId, args.roomTypeId))
                     },
-                    isLoading = bookingViewModel.uiState.isLoading                )
+                    isLoading = bookingViewModel.uiState.isLoading
+                )
             }
         }
 
         composable<PaymentScreen> { backStackEntry ->
+            // Authentication guard
+            if (currentUser == null) {
+                LaunchedEffect(Unit) {
+                    navController.navigate(LoginScreen) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                    }
+                }
+                return@composable
+            }
+            
             val args = backStackEntry.toRoute<PaymentScreen>()
             val hotel = hotelViewModel.getHotelById(args.hotelId)
             val roomType = hotel?.roomTypes?.find { it.id == args.roomTypeId }
@@ -230,6 +263,16 @@ fun HotelBookingNavigation(
         }
 
         composable<BookingHistoryScreen> {
+            // Authentication guard
+            if (currentUser == null) {
+                LaunchedEffect(Unit) {
+                    navController.navigate(LoginScreen) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                    }
+                }
+                return@composable
+            }
+            
             BookingHistoryScreen(
                 bookings = bookings,
                 onBackClick = {
@@ -242,13 +285,23 @@ fun HotelBookingNavigation(
         }
 
         composable<ProfileScreen> {
+            // Authentication guard
+            if (currentUser == null) {
+                LaunchedEffect(Unit) {
+                    navController.navigate(LoginScreen) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                    }
+                }
+                return@composable
+            }
+            
             ProfileScreen(
                 user = currentUser,
                 onBackClick = {
                     navController.popBackStack()
                 },
                 onEditProfileClick = {
-                    navController.navigate(com.kel7.bookinghotel.ui.navigation.EditProfileScreen)
+                    navController.navigate(EditProfileScreen)
                 },
                 onLogoutClick = {
                     authViewModel.logout()
@@ -259,7 +312,17 @@ fun HotelBookingNavigation(
             )
         }
 
-        composable<com.kel7.bookinghotel.ui.navigation.EditProfileScreen> {
+        composable<EditProfileScreen> {
+            // Authentication guard
+            if (currentUser == null) {
+                LaunchedEffect(Unit) {
+                    navController.navigate(LoginScreen) {
+                        popUpTo(navController.graph.startDestinationId) { inclusive = true }
+                    }
+                }
+                return@composable
+            }
+            
             EditProfileScreen(
                 user = currentUser,
                 onBackClick = {

@@ -46,14 +46,45 @@ fun LoginScreen(
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        
-        Text(
+          Text(
             text = "Welcome back! Please sign in to continue",
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 32.dp)
+            modifier = Modifier.padding(bottom = 16.dp)
         )
+
+        // Demo accounts info
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(12.dp)
+            ) {
+                Text(
+                    text = "Demo Accounts:",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "admin@hotel.com / admin123",
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+                Text(
+                    text = "user@test.com / password123",
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+        }
 
         // Email Field
         OutlinedTextField(
