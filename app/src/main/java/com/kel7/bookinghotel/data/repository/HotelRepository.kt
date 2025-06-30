@@ -152,27 +152,10 @@ class HotelRepository {
         PaymentMethod("4", "GoPay", PaymentType.E_WALLET, "gopay"),
         PaymentMethod("5", "Bank Transfer", PaymentType.BANK_TRANSFER, "bank_transfer")
     )    // Mock user database for authentication
-    private val registeredUsers = mutableListOf<User>(
-        // Pre-defined demo users
-        User(
-            id = "demo-user-1",
-            email = "admin@hotel.com",
-            name = "Admin User",
-            phoneNumber = "081234567890"
-        ),
-        User(
-            id = "demo-user-2", 
-            email = "user@test.com",
-            name = "Test User",
-            phoneNumber = "081234567891"
-        )
-    )
+    private val registeredUsers = mutableListOf<User>()
 
     // Mock password storage (in real app, use encrypted storage)
-    private val userPasswords = mutableMapOf<String, String>(
-        "admin@hotel.com" to "admin123",
-        "user@test.com" to "password123"
-    )
+    private val userPasswords = mutableMapOf<String, String>()
 
     suspend fun login(email: String, password: String): Result<User> {
         // Simulate network delay

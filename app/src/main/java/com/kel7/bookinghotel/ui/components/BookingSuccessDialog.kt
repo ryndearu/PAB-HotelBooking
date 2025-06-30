@@ -47,10 +47,9 @@ fun BookingSuccessDialog(
                     )
                     
                     Spacer(modifier = Modifier.height(16.dp))
-                    
-                    // Success Title
+                      // Success Title
                     Text(
-                        text = "Booking Confirmed!",
+                        text = "Pemesanan Dikonfirmasi!",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
@@ -60,7 +59,7 @@ fun BookingSuccessDialog(
                     
                     // Success Message
                     Text(
-                        text = "Your booking has been successfully confirmed. You will receive a confirmation email shortly.",
+                        text = "Pemesanan Anda telah berhasil dikonfirmasi. Anda akan menerima email konfirmasi segera.",
                         fontSize = 14.sp,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -77,20 +76,19 @@ fun BookingSuccessDialog(
                     ) {
                         Column(
                             modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = "Booking Details",
+                        ) {                            Text(
+                                text = "Detail Pemesanan",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.padding(bottom = 8.dp)
                             )
                             
-                            BookingDetailRow("Booking ID", booking.id.take(8).uppercase())
+                            BookingDetailRow("ID Pemesanan", booking.id.take(8).uppercase())
                             BookingDetailRow("Hotel", booking.hotelName)
-                            BookingDetailRow("Room", booking.roomTypeName)
+                            BookingDetailRow("Kamar", booking.roomTypeName)
                             
                             val currencyFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
-                            BookingDetailRow("Total Amount", currencyFormat.format(booking.totalPrice))
+                            BookingDetailRow("Total Jumlah", currencyFormat.format(booking.totalPrice))
                         }
                     }
                     
@@ -100,19 +98,18 @@ fun BookingSuccessDialog(
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        OutlinedButton(
+                    ) {                        OutlinedButton(
                             onClick = onGoToHistory,
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("View History")
+                            Text("Lihat Riwayat")
                         }
                         
                         Button(
                             onClick = onGoToHome,
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("Go Home")
+                            Text("Ke Beranda")
                         }
                     }
                 }

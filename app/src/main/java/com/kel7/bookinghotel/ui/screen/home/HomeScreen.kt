@@ -47,27 +47,25 @@ fun HomeScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         // Top App Bar
-        TopAppBar(
-            title = {
+        TopAppBar(            title = {
                 Column {
                     Text(
-                        text = "Welcome back!",
+                        text = "Selamat datang kembali!",
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = user?.name ?: "Guest",
+                        text = user?.name ?: "Tamu",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
-            },
-            actions = {
+            },            actions = {
                 IconButton(onClick = onHistoryClick) {
-                    Icon(Icons.Default.History, contentDescription = "Booking History")
+                    Icon(Icons.Default.History, contentDescription = "Riwayat Pemesanan")
                 }
                 IconButton(onClick = onProfileClick) {
-                    Icon(Icons.Default.AccountCircle, contentDescription = "Profile")
+                    Icon(Icons.Default.AccountCircle, contentDescription = "Profil")
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(
@@ -93,25 +91,22 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
+                    ) {                        Icon(
                             Icons.Default.Search,
-                            contentDescription = "Search",
+                            contentDescription = "Cari",
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "Search hotels, destinations...",
+                            text = "Cari hotel, destinasi...",
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
-            }
-
-            // Section Title
+            }            // Section Title
             item {
                 Text(
-                    text = "Popular Hotels",
+                    text = "Hotel Populer",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(vertical = 8.dp)
@@ -233,15 +228,14 @@ fun HotelCard(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom
-                ) {
-                    Column {
+                ) {                    Column {
                         Text(
-                            text = "Starting from",
+                            text = "Mulai dari",
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = "${currencyFormat.format(hotel.pricePerNight)}/night",
+                            text = "${currencyFormat.format(hotel.pricePerNight)}/malam",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
@@ -252,7 +246,7 @@ fun HotelCard(
                         onClick = onClick,
                         modifier = Modifier.height(36.dp)
                     ) {
-                        Text("View Details")
+                        Text("Lihat Detail")
                     }
                 }
             }

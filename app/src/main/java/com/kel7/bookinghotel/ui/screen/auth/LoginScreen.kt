@@ -37,54 +37,21 @@ fun LoginScreen(
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ) {
-        // App Title
+    ) {        // App Title
         Text(
-            text = "Hotel Booking",
+            text = "Pemesanan Hotel",
             fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold,            color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-          Text(
-            text = "Welcome back! Please sign in to continue",
+        
+        Text(
+            text = "Selamat datang kembali! Silakan masuk untuk melanjutkan",
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 32.dp)
         )
-
-        // Demo accounts info
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer
-            )
-        ) {
-            Column(
-                modifier = Modifier.padding(12.dp)
-            ) {
-                Text(
-                    text = "Demo Accounts:",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
-                Text(
-                    text = "admin@hotel.com / admin123",
-                    fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-                Text(
-                    text = "user@test.com / password123",
-                    fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
-        }
 
         // Email Field
         OutlinedTextField(
@@ -105,15 +72,15 @@ fun LoginScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text("Kata Sandi") },
             leadingIcon = {
-                Icon(Icons.Default.Lock, contentDescription = "Password")
+                Icon(Icons.Default.Lock, contentDescription = "Kata Sandi")
             },
             trailingIcon = {
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
                         if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                        contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                        contentDescription = if (passwordVisible) "Sembunyikan kata sandi" else "Tampilkan kata sandi"
                     )
                 }
             },
@@ -141,9 +108,7 @@ fun LoginScreen(
                     modifier = Modifier.padding(16.dp)
                 )
             }
-        }
-
-        // Login Button
+        }        // Login Button
         Button(
             onClick = { onLoginClick(email, password) },
             modifier = Modifier
@@ -157,7 +122,7 @@ fun LoginScreen(
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             } else {
-                Text("Sign In", fontSize = 16.sp)
+                Text("Masuk", fontSize = 16.sp)
             }
         }
 
@@ -168,11 +133,11 @@ fun LoginScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Don't have an account? ",
+                text = "Belum punya akun? ",
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             TextButton(onClick = onRegisterClick) {
-                Text("Sign Up", fontWeight = FontWeight.Bold)
+                Text("Daftar", fontWeight = FontWeight.Bold)
             }
         }
     }

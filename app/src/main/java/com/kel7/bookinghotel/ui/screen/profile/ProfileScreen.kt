@@ -112,9 +112,8 @@ fun ProfileScreen(
                     ) {
                         Column(
                             modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = "Personal Information",
+                        ) {                            Text(
+                                text = "Informasi Pribadi",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.padding(bottom = 16.dp)
@@ -122,7 +121,7 @@ fun ProfileScreen(
 
                             ProfileInfoRow(
                                 icon = Icons.Default.Person,
-                                label = "Full Name",
+                                label = "Nama Lengkap",
                                 value = currentUser.name
                             )
 
@@ -134,8 +133,8 @@ fun ProfileScreen(
 
                             ProfileInfoRow(
                                 icon = Icons.Default.Phone,
-                                label = "Phone Number",
-                                value = currentUser.phoneNumber.ifEmpty { "Not provided" }
+                                label = "Nomor Telepon",
+                                value = currentUser.phoneNumber.ifEmpty { "Tidak tersedia" }
                             )
                         }
                     }
@@ -150,9 +149,8 @@ fun ProfileScreen(
                     ) {
                         Column(
                             modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = "Account Actions",
+                        ) {                            Text(
+                                text = "Aksi Akun",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.padding(bottom = 16.dp)
@@ -170,7 +168,7 @@ fun ProfileScreen(
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Text("Edit Profile")
+                                Text("Edit Profil")
                             }
 
                             OutlinedButton(

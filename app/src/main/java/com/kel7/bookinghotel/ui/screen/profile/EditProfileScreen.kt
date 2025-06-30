@@ -32,13 +32,12 @@ fun EditProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-    ) {
-        // Top App Bar
+    ) {        // Top App Bar
         TopAppBar(
-            title = { Text("Edit Profile") },
+            title = { Text("Edit Profil") },
             navigationIcon = {
                 IconButton(onClick = onBackClick) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Kembali")
                 }
             }
         )
@@ -55,9 +54,8 @@ fun EditProfileScreen(
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp)
-                ) {
-                    Text(
-                        text = "Personal Information",
+                ) {                    Text(
+                        text = "Informasi Pribadi",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 16.dp)
@@ -83,9 +81,9 @@ fun EditProfileScreen(
                     OutlinedTextField(
                         value = name,
                         onValueChange = { name = it },
-                        label = { Text("Full Name") },
+                        label = { Text("Nama Lengkap") },
                         leadingIcon = {
-                            Icon(Icons.Default.Person, contentDescription = "Name")
+                            Icon(Icons.Default.Person, contentDescription = "Nama")
                         },
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
@@ -97,14 +95,14 @@ fun EditProfileScreen(
                     OutlinedTextField(
                         value = phoneNumber,
                         onValueChange = { phoneNumber = it },
-                        label = { Text("Phone Number") },
+                        label = { Text("Nomor Telepon") },
                         leadingIcon = {
-                            Icon(Icons.Default.Phone, contentDescription = "Phone")
+                            Icon(Icons.Default.Phone, contentDescription = "Telepon")
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true,
-                        placeholder = { Text("e.g., 081234567890") }
+                        placeholder = { Text("contoh: 081234567890") }
                     )
                 }
             }
@@ -139,9 +137,8 @@ fun EditProfileScreen(
                     CircularProgressIndicator(
                         modifier = Modifier.size(20.dp),
                         color = MaterialTheme.colorScheme.onPrimary
-                    )
-                } else {
-                    Text("Save Changes", fontSize = 16.sp)
+                    )                } else {
+                    Text("Simpan Perubahan", fontSize = 16.sp)
                 }
             }
         }

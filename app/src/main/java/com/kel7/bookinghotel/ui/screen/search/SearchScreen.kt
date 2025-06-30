@@ -56,15 +56,14 @@ fun SearchScreen(
             title = {
                 OutlinedTextField(
                     value = searchQuery,
-                    onValueChange = onSearchQueryChange,
-                    placeholder = { Text("Search hotels") },
+                    onValueChange = onSearchQueryChange,                    placeholder = { Text("Cari hotel") },
                     leadingIcon = {
-                        Icon(Icons.Default.Search, contentDescription = "Search")
+                        Icon(Icons.Default.Search, contentDescription = "Cari")
                     },
                     trailingIcon = {
                         if (searchQuery.isNotEmpty()) {
                             IconButton(onClick = { onSearchQueryChange("") }) {
-                                Icon(Icons.Default.Clear, contentDescription = "Clear")
+                                Icon(Icons.Default.Clear, contentDescription = "Hapus")
                             }
                         }
                     },
@@ -75,10 +74,9 @@ fun SearchScreen(
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
-            },
-            navigationIcon = {
+            },            navigationIcon = {
                 IconButton(onClick = onBackClick) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Kembali")
                 }
             },
             actions = {
@@ -97,14 +95,13 @@ fun SearchScreen(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "No hotels found",
+                ) {                    Text(
+                        text = "Tidak ada hotel ditemukan",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium
                     )
                     Text(
-                        text = "Try different keywords or filters",
+                        text = "Coba kata kunci atau filter yang berbeda",
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 8.dp)
@@ -119,21 +116,20 @@ fun SearchScreen(
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
+                ) {                    Icon(
                         Icons.Default.Search,
-                        contentDescription = "Search",
+                        contentDescription = "Cari",
                         modifier = Modifier.size(64.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
-                        text = "Search for hotels",
+                        text = "Cari hotel",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier.padding(top = 16.dp)
                     )
                     Text(
-                        text = "Find your perfect stay by location or hotel name",
+                        text = "Temukan tempat menginap sempurna berdasarkan lokasi atau nama hotel",
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 8.dp)
@@ -146,10 +142,9 @@ fun SearchScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                item {
+            ) {                item {
                     Text(
-                        text = "${hotels.size} hotels found",
+                        text = "${hotels.size} hotel ditemukan",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
                         modifier = Modifier.padding(bottom = 8.dp)
@@ -264,15 +259,14 @@ fun SearchHotelCard(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.Bottom
-                ) {
-                    Column {
+                ) {                    Column {
                         Text(
-                            text = "From",
+                            text = "Dari",
                             fontSize = 10.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = "${currencyFormat.format(hotel.pricePerNight)}/night",
+                            text = "${currencyFormat.format(hotel.pricePerNight)}/malam",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
@@ -283,7 +277,7 @@ fun SearchHotelCard(
                         onClick = onClick,
                         modifier = Modifier.height(32.dp)
                     ) {
-                        Text("View", fontSize = 12.sp)
+                        Text("Lihat", fontSize = 12.sp)
                     }
                 }
             }

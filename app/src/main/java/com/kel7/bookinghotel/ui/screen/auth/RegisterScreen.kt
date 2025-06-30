@@ -47,10 +47,9 @@ fun RegisterScreen(
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ) {
-        // App Title
+    ) {        // App Title
         Text(
-            text = "Create Account",
+            text = "Buat Akun",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -58,20 +57,18 @@ fun RegisterScreen(
         )
         
         Text(
-            text = "Sign up to start booking your perfect stay",
+            text = "Daftar untuk mulai memesan tempat menginap yang sempurna",
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 32.dp)
-        )
-
-        // Name Field
+        )        // Name Field
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Full Name") },
+            label = { Text("Nama Lengkap") },
             leadingIcon = {
-                Icon(Icons.Default.Person, contentDescription = "Name")
+                Icon(Icons.Default.Person, contentDescription = "Nama")
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -98,15 +95,15 @@ fun RegisterScreen(
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Password") },
+            label = { Text("Kata Sandi") },
             leadingIcon = {
-                Icon(Icons.Default.Lock, contentDescription = "Password")
+                Icon(Icons.Default.Lock, contentDescription = "Kata Sandi")
             },
             trailingIcon = {
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
                         if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                        contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                        contentDescription = if (passwordVisible) "Sembunyikan kata sandi" else "Tampilkan kata sandi"
                     )
                 }
             },
@@ -122,15 +119,15 @@ fun RegisterScreen(
         OutlinedTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
-            label = { Text("Confirm Password") },
+            label = { Text("Konfirmasi Kata Sandi") },
             leadingIcon = {
-                Icon(Icons.Default.Lock, contentDescription = "Confirm Password")
+                Icon(Icons.Default.Lock, contentDescription = "Konfirmasi Kata Sandi")
             },
             trailingIcon = {
                 IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
                     Icon(
                         if (confirmPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                        contentDescription = if (confirmPasswordVisible) "Hide password" else "Show password"
+                        contentDescription = if (confirmPasswordVisible) "Sembunyikan kata sandi" else "Tampilkan kata sandi"
                     )
                 }
             },
@@ -146,7 +143,7 @@ fun RegisterScreen(
         // Password Match Warning
         if (confirmPassword.isNotBlank() && password != confirmPassword) {
             Text(
-                text = "Passwords do not match",
+                text = "Kata sandi tidak cocok",
                 color = MaterialTheme.colorScheme.error,
                 fontSize = 12.sp,
                 modifier = Modifier
@@ -173,9 +170,7 @@ fun RegisterScreen(
                     modifier = Modifier.padding(16.dp)
                 )
             }
-        }
-
-        // Register Button
+        }        // Register Button
         Button(
             onClick = { onRegisterClick(email, password, name) },
             modifier = Modifier
@@ -189,7 +184,7 @@ fun RegisterScreen(
                     color = MaterialTheme.colorScheme.onPrimary
                 )
             } else {
-                Text("Create Account", fontSize = 16.sp)
+                Text("Buat Akun", fontSize = 16.sp)
             }
         }
 
@@ -200,11 +195,11 @@ fun RegisterScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Already have an account? ",
+                text = "Sudah punya akun? ",
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             TextButton(onClick = onLoginClick) {
-                Text("Sign In", fontWeight = FontWeight.Bold)
+                Text("Masuk", fontWeight = FontWeight.Bold)
             }
         }
     }

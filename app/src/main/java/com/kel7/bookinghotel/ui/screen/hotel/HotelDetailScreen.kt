@@ -42,13 +42,12 @@ fun HotelDetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-    ) {
-        // Top App Bar
+    ) {        // Top App Bar
         TopAppBar(
-            title = { Text("Hotel Details") },
+            title = { Text("Detail Hotel") },
             navigationIcon = {
                 IconButton(onClick = onBackClick) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Kembali")
                 }
             }
         )
@@ -131,11 +130,9 @@ fun HotelDetailScreen(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    // Description
+                    Spacer(modifier = Modifier.height(16.dp))                    // Description
                     Text(
-                        text = "About this hotel",
+                        text = "Tentang hotel ini",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 8.dp)
@@ -151,7 +148,7 @@ fun HotelDetailScreen(
 
                     // Amenities
                     Text(
-                        text = "Amenities",
+                        text = "Fasilitas",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 8.dp)
@@ -171,9 +168,8 @@ fun HotelDetailScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 Divider()
                 Spacer(modifier = Modifier.height(16.dp))
-                
-                Text(
-                    text = "Available Rooms",
+                  Text(
+                    text = "Kamar Tersedia",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 16.dp)
@@ -270,11 +266,10 @@ fun RoomTypeCard(
                             Icons.Default.People,
                             contentDescription = "Max Occupancy",
                             modifier = Modifier.size(16.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant                        )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            text = "Up to ${roomType.maxOccupancy} guests",
+                            text = "Maksimal ${roomType.maxOccupancy} tamu",
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -312,9 +307,8 @@ fun RoomTypeCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom
             ) {
-                Column {
-                    Text(
-                        text = "Price per night",
+                Column {                    Text(
+                        text = "Harga per malam",
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -330,7 +324,7 @@ fun RoomTypeCard(
                     onClick = onBookClick,
                     modifier = Modifier.height(40.dp)
                 ) {
-                    Text("Book Now")
+                    Text("Pesan Sekarang")
                 }
             }
         }

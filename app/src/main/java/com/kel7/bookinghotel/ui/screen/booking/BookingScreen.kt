@@ -71,13 +71,12 @@ fun BookingScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-    ) {
-        // Top App Bar
+    ) {        // Top App Bar
         TopAppBar(
-            title = { Text("Book Room") },
+            title = { Text("Pesan Kamar") },
             navigationIcon = {
                 IconButton(onClick = onBackClick) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Kembali")
                 }
             }
         )
@@ -118,15 +117,14 @@ fun BookingScreen(
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = "${currencyFormat.format(roomType.pricePerNight)} per night",
+                        ) {                            Text(
+                                text = "${currencyFormat.format(roomType.pricePerNight)} per malam",
                                 fontSize = 14.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             if (numberOfNights > 1) {
                                 Text(
-                                    text = "$numberOfNights nights",
+                                    text = "$numberOfNights malam",
                                     fontSize = 14.sp,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -138,8 +136,7 @@ fun BookingScreen(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
+                            modifier = Modifier.padding(top = 4.dp)                        )
                     }
                 }
             }
@@ -147,7 +144,7 @@ fun BookingScreen(
             item {
                 // Check-in Date
                 BookingDateField(
-                    label = "Check-in Date",
+                    label = "Tanggal Check-in",
                     date = checkInDate,
                     onDateChange = onCheckInDateChange,
                     displayDateFormat = displayDateFormat
@@ -157,7 +154,7 @@ fun BookingScreen(
             item {
                 // Check-out Date
                 BookingDateField(
-                    label = "Check-out Date",
+                    label = "Tanggal Check-out",
                     date = checkOutDate,
                     onDateChange = onCheckOutDateChange,
                     displayDateFormat = displayDateFormat
@@ -172,9 +169,8 @@ fun BookingScreen(
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = "Number of Guests",
+                    ) {                        Text(
+                            text = "Jumlah Tamu",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier.padding(bottom = 12.dp)
@@ -191,12 +187,11 @@ fun BookingScreen(
                                 Icon(
                                     Icons.Default.People,
                                     contentDescription = "Guests",
-                                    modifier = Modifier.size(20.dp),
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                    modifier = Modifier.size(20.dp),                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "$guestCount ${if (guestCount == 1) "Guest" else "Guests"}",
+                                    text = "$guestCount ${if (guestCount == 1) "Tamu" else "Tamu"}",
                                     fontSize = 16.sp
                                 )
                             }
@@ -229,9 +224,8 @@ fun BookingScreen(
                                 }
                             }
                         }
-                        
-                        Text(
-                            text = "Maximum ${roomType.maxOccupancy} guests",
+                          Text(
+                            text = "Maksimal ${roomType.maxOccupancy} tamu",
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(top = 8.dp)
@@ -248,9 +242,8 @@ fun BookingScreen(
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = "Special Requests (Optional)",
+                    ) {                        Text(
+                            text = "Permintaan Khusus (Opsional)",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier.padding(bottom = 8.dp)
@@ -259,7 +252,7 @@ fun BookingScreen(
                         OutlinedTextField(
                             value = specialRequests,
                             onValueChange = onSpecialRequestsChange,
-                            placeholder = { Text("Any special requests or preferences...") },
+                            placeholder = { Text("Permintaan khusus atau preferensi...") },
                             modifier = Modifier.fillMaxWidth(),
                             minLines = 3,
                             maxLines = 5
@@ -298,7 +291,7 @@ fun BookingScreen(
                             strokeWidth = 2.dp
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Loading...", fontSize = 16.sp)
+                        Text("Memuat...", fontSize = 16.sp)
                     }
                 } else {
                     Row(
@@ -306,11 +299,11 @@ fun BookingScreen(
                     ) {
                         Icon(
                             Icons.Default.ArrowForward,
-                            contentDescription = "Continue",
+                            contentDescription = "Lanjutkan",
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Continue to Payment", fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                        Text("Lanjut ke Pembayaran", fontSize = 16.sp, fontWeight = FontWeight.Medium)
                     }
                 }
             }
@@ -319,9 +312,9 @@ fun BookingScreen(
             if (!isValidBooking && !isLoading) {
                 Text(
                     text = when {
-                        checkInDate.isEmpty() -> "Please select check-in date"
-                        checkOutDate.isEmpty() -> "Please select check-out date"
-                        guestCount <= 0 -> "Please select number of guests"
+                        checkInDate.isEmpty() -> "Silakan pilih tanggal check-in"
+                        checkOutDate.isEmpty() -> "Silakan pilih tanggal check-out"
+                        guestCount <= 0 -> "Silakan pilih jumlah tamu"
                         else -> ""
                     },
                     color = MaterialTheme.colorScheme.error,
@@ -368,12 +361,11 @@ fun BookingDateField(
                     Icons.Default.CalendarToday,
                     contentDescription = "Date",
                     modifier = Modifier.size(20.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant                )
                 Spacer(modifier = Modifier.width(8.dp))
                 if (date.isEmpty()) {
                     Text(
-                        text = "Select $label",
+                        text = "Pilih $label",
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -397,9 +389,8 @@ fun BookingDateField(
     
     MaterialDialog(
         dialogState = dateDialogState,
-        buttons = {
-            positiveButton(text = "Ok")
-            negativeButton(text = "Cancel")
+        buttons = {            positiveButton(text = "Ok")
+            negativeButton(text = "Batal")
         }
     ) {
         datepicker(
@@ -411,8 +402,7 @@ fun BookingDateField(
                 }
             } else {
                 LocalDate.now().plusDays(if (label.contains("Check-in")) 1 else 2)
-            },
-            title = "Select $label",
+            },            title = "Pilih $label",
             allowedDateValidator = { selectedDate ->
                 if (label.contains("Check-in")) {
                     selectedDate >= LocalDate.now()

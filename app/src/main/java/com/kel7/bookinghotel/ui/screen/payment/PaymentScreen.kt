@@ -55,11 +55,10 @@ fun PaymentScreen(
     val displayDateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val context = LocalContext.current
-    
-    // Show toast notification when booking is successful
+      // Show toast notification when booking is successful
     LaunchedEffect(isBookingSuccess) {
         if (isBookingSuccess) {
-            Toast.makeText(context, "Booking berhasil! Pesanan Anda telah dikonfirmasi.", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Pemesanan berhasil! Pesanan Anda telah dikonfirmasi.", Toast.LENGTH_LONG).show()
         }
     }
     
@@ -74,13 +73,12 @@ fun PaymentScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-    ) {
-        // Top App Bar
+    ) {        // Top App Bar
         TopAppBar(
-            title = { Text("Payment") },
+            title = { Text("Pembayaran") },
             navigationIcon = {
                 IconButton(onClick = onBackClick) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Kembali")
                 }
             }
         )
@@ -98,16 +96,16 @@ fun PaymentScreen(
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = "Booking Summary",
+                    ) {                        Text(
+                            text = "Ringkasan Pemesanan",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 12.dp)
                         )
-                          SummaryRow("Hotel", hotel.name)
-                        SummaryRow("Room", roomType.name)
-                        SummaryRow("Guests", "$guestCount ${if (guestCount == 1) "Guest" else "Guests"}")
+                        
+                        SummaryRow("Hotel", hotel.name)
+                        SummaryRow("Kamar", roomType.name)
+                        SummaryRow("Tamu", "$guestCount ${if (guestCount == 1) "Tamu" else "Tamu"}")
                         
                         val (checkInDisplayText, checkOutDisplayText) = remember(checkInDate, checkOutDate) {
                             try {
@@ -174,9 +172,8 @@ fun PaymentScreen(
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = "Payment Method",
+                    ) {                        Text(
+                            text = "Metode Pembayaran",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 12.dp)
@@ -251,7 +248,7 @@ fun PaymentScreen(
                             strokeWidth = 2.dp
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Processing...", fontSize = 16.sp)
+                        Text("Memproses...", fontSize = 16.sp)
                     }
                 } else {
                     Row(
@@ -259,11 +256,11 @@ fun PaymentScreen(
                     ) {
                         Icon(
                             Icons.Default.CheckCircle,
-                            contentDescription = "Confirm",
+                            contentDescription = "Konfirmasi",
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Confirm Booking", fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                        Text("Konfirmasi Pemesanan", fontSize = 16.sp, fontWeight = FontWeight.Medium)
                     }
                 }
             }

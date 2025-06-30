@@ -137,7 +137,7 @@ fun BookingCard(
             }
 
             Spacer(modifier = Modifier.height(12.dp))            // Booking Details
-            BookingDetailRow("Booking ID", booking.id.take(8).uppercase())
+            BookingDetailRow("ID Pemesanan", booking.id.take(8).uppercase())
             
             val (checkInDisplayText, checkOutDisplayText) = remember(booking.checkInDate, booking.checkOutDate) {
                 try {
@@ -154,11 +154,10 @@ fun BookingCard(
             
             BookingDetailRow("Check-in", checkInDisplayText)
             BookingDetailRow("Check-out", checkOutDisplayText)
-            
-            BookingDetailRow("Guests", "${booking.guestCount} ${if (booking.guestCount == 1) "Guest" else "Guests"}")
+              BookingDetailRow("Tamu", "${booking.guestCount} ${if (booking.guestCount == 1) "Tamu" else "Tamu"}")
             
             if (booking.specialRequests.isNotEmpty()) {
-                BookingDetailRow("Special Requests", booking.specialRequests)
+                BookingDetailRow("Permintaan Khusus", booking.specialRequests)
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -171,9 +170,8 @@ fun BookingCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom
             ) {
-                Column {
-                    Text(
-                        text = "Total Paid",
+                Column {                    Text(
+                        text = "Total Dibayar",
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -190,9 +188,8 @@ fun BookingCard(
                         onClick = onCancelClick,
                         colors = ButtonDefaults.outlinedButtonColors(
                             contentColor = MaterialTheme.colorScheme.error
-                        )
-                    ) {
-                        Text("Cancel Booking")
+                        )                    ) {
+                        Text("Batalkan Pemesanan")
                     }
                 }
             }
@@ -226,34 +223,33 @@ fun BookingDetailRow(
 
 @Composable
 fun BookingStatusChip(status: BookingStatus) {
-    val (backgroundColor, contentColor, icon, text) = when (status) {
-        BookingStatus.CONFIRMED -> 
+    val (backgroundColor, contentColor, icon, text) = when (status) {        BookingStatus.CONFIRMED -> 
             Quadruple(
                 Color(0xFF4CAF50).copy(alpha = 0.1f),
                 Color(0xFF4CAF50),
                 Icons.Default.CheckCircle,
-                "Confirmed"
+                "Dikonfirmasi"
             )
         BookingStatus.CANCELLED -> 
             Quadruple(
                 MaterialTheme.colorScheme.errorContainer,
                 MaterialTheme.colorScheme.onErrorContainer,
                 Icons.Default.Cancel,
-                "Cancelled"
+                "Dibatalkan"
             )
         BookingStatus.COMPLETED -> 
             Quadruple(
                 MaterialTheme.colorScheme.primaryContainer,
                 MaterialTheme.colorScheme.onPrimaryContainer,
                 Icons.Default.CheckCircle,
-                "Completed"
+                "Selesai"
             )
         BookingStatus.PENDING -> 
             Quadruple(
                 Color(0xFFFF9800).copy(alpha = 0.1f),
                 Color(0xFFFF9800),
                 Icons.Default.Schedule,
-                "Pending"
+                "Menunggu"
             )
     }
 
